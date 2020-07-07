@@ -1,0 +1,9 @@
+---
+network-cni-plugin: kube-router
+cluster_dns_ip: 10.32.0.10 
+ingress_controller: traefik
+k8s_dashboard: true
+k8s_dashboard_admin: true
+service_cluster_ip_range: 10.32.0.0/24
+cni_release: 0.8.5
+cluster_cidr: 10.33.0.0/16

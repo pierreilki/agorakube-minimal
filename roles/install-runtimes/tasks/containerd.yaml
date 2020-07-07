@@ -1,0 +1,64 @@
+---
+- name: Add the [overlay] and [br_netfilter]  modules
+  modprobe:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - overlay
+    - br_netfilter
+
+- name: Create activated kernel modules directory
+  file:
+    path: /etc/modules-load.d/
+    state: directory
+
+- name: Load kernel modules at boot
+  copy:
+    content: "{{ item }}"
+    dest: /etc/modules-load.d/{{ item }}.conf
+  with_items:
+    - overlay
+    - br_netfilter
+
+- name: Setup required sysctl params, these persist across reboots
+  sysctl:
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+    state: present
+    reload: yes
+    sysctl_file: /etc/sysctl.d/99-kubernetes-cri.conf
+  with_items:
+    - { name: 'net.bridge.bridge-nf-call-iptables', value: '1' }
+    - { name: 'net.ipv4.ip_forward', value: '1' }
+    - { name: 'net.bridge.bridge-nf-call-ip6tables', value: '1' }
+
+- name: Add Docker repository for Debian like distros
+  include_tasks: "repo-debian-like.yaml"
+  when: is_debian_like
+
+- name: Add Docker repository for centos like distros
+  include_tasks: "repo-centos-like.yaml"
+  when: is_centos_like
+
+- name: Install containerd
+  package:
+    name: containerd.io
+    state: latest
+
+- name: Create /etc/containerd directory
+  file:
+    path: /etc/containerd
+    state: directory
+
+- name: Configure containerd
+  copy:
+    src: config.toml
+    dest: /etc/containerd/config.toml
+  notify:
+    - restart containerd
+
+- name: Start Runtime
+  systemd:
+    state: started
+    name: containerd
+    enabled: yes
