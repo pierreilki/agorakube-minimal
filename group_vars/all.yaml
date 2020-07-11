@@ -1,13 +1,11 @@
 ---
 
 # CERTIFICATES
-cn_root_ca: ilkilabs
-c: FR
-st: Ile-De-France
-l: Paris
-expiry: 87600h
-rotate_certs_pki: false
-rotate_full_pki: false
+state_or_province_name: "Ile-De-France"
+locality_name: "Paris"
+country_name: "FR"
+root_ca_common_name: "kubernetes"
+expiry: "+3650d"
 
 # Components version
 etcd_release: v3.4.7
