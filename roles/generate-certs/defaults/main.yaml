@@ -1,10 +1,13 @@
 ---
-cn_root_ca: ilkilabs
-c: FR
-st: Ile-De-France
-l: Paris
-expiry: 87600h
 advertise_ip_masters: 1.2.3.4
 kubernetes_service: 1.2.3.4
 rotate_certs_pki: false
 rotate_full_pki: false
+
+pki_path: /home/pierre/new
+
+state_or_province_name: "Ile-De-France"
+locality_name: "Paris"
+country_name: "FR"
+root_ca_common_name: "kubernetes"
+expiry: "+3650d"
