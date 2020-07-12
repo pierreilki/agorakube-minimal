@@ -42,7 +42,7 @@
 
 - name: Create kubelet kubeconfig file
   copy:
-    src: "{{ pki_path }}/kubeconfigs/kubelet/{{ ansible_fqdn }}/kubelet.config"
+    src: "{{ pki_path }}/kubeconfigs/kubelet/{{ ansible_fqdn }}/kubelet.conf"
     dest: /etc/kubernetes/manifests/kubelet.conf
     owner: root
     group: root

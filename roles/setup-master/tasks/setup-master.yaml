@@ -53,7 +53,7 @@
 
 - name: Import controller-manager.conf kubeconfig
   copy:
-    src: "{{ pki_path }}/kubeconfigs/controller-manager.conf"
+    src: "{{ pki_path }}/kubeconfigs/controller-manager/controller-manager.conf"
     dest: /etc/kubernetes/manifests/controller-manager.conf
     owner: root
     group: root
@@ -71,9 +71,9 @@
   notify:
     - Restart kube-scheduler service
 
-- name: Import /etc/kubernetes/manifests/kube-scheduler.yaml
+- name: Import /etc/kubernetes/manifests/scheduler.conf
   copy:
-    src: "{{ pki_path }}/kubeconfigs/scheduler.conf"
+    src: "{{ pki_path }}/kubeconfigs/scheduler/scheduler.conf"
     dest: /etc/kubernetes/manifests/scheduler.conf
     owner: root
     group: root

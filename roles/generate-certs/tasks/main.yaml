@@ -286,10 +286,11 @@
   openssl_csr:
     path: "{{ pki_path }}/kubeconfigs/{{ item }}/{{ item }}.csr"
     privatekey_path: "{{ pki_path }}/kubeconfigs/{{ item }}/{{ item }}.key"
-    common_name: "system:kube-{{ item }}"
+    common_name: system:kube-{{ item }}
     state_or_province_name: "{{ state_or_province_name }}"
     locality_name: "{{ locality_name }}"
     country_name: "{{ country_name }}"
+    use_common_name_for_san: False
   with_items:
     - controller-manager
     - scheduler
@@ -454,6 +455,7 @@
     locality_name: "{{ locality_name }}"
     country_name: "{{ country_name }}"
     organization_name: 'system:nodes'
+    use_common_name_for_san: False
   with_items:
     - "{{ groups['masters'] }}"
     - "{{ groups['workers'] }}"
