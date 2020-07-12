@@ -19,7 +19,7 @@
     - { src: 'intermediate/etcd/ca.key', dest: 'etcd/ca.key' }
     - { src: 'intermediate/etcd/ca.crt', dest: 'etcd/ca.crt' }
     - { src: 'end/kube-apiserver-etcd-client.key', dest: 'apiserver-etcd-client.key' }
-    - { src: 'end/kube-apiserver-etcd-client.key', dest: 'apiserver-etcd-client.crt' }
+    - { src: 'end/kube-apiserver-etcd-client.crt', dest: 'apiserver-etcd-client.crt' }
     - { src: 'intermediate/ca.key', dest: 'ca.key' }
     - { src: 'intermediate/ca.crt', dest: 'ca.crt' }
     - { src: 'end/kube-apiserver.key', dest: 'apiserver.key' }
