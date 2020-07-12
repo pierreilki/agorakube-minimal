@@ -327,95 +327,107 @@
 
 - name: File generation of kubeconfig configuration for [admin] 1/4
   shell: |
-    KUBECONFIG="{{ pki_path }}/kubeconfigs/admin/admin.conf" \
     kubectl config set-cluster default-cluster --server=https://{{ advertise_ip_masters }}:6443 \
     --certificate-authority "{{ pki_path }}/intermediate/ca.crt" \
     --embed-certs
+  environment:
+    KUBECONFIG: "{{ pki_path }}/kubeconfigs/admin/admin.conf"
   when: admin_certificate.changed
 
 - name: File generation of kubeconfig configuration for [admin] 2/4
   shell: |
-    KUBECONFIG="{{ pki_path }}/kubeconfigs/admin/admin.conf" \
     kubectl config set-credentials default-admin \
     --client-key "{{ pki_path }}/kubeconfigs/admin/admin.key" \
     --client-certificate "{{ pki_path }}/kubeconfigs/admin/admin.crt" \
     --embed-certs
+  environment:
+    KUBECONFIG: "{{ pki_path }}/kubeconfigs/admin/admin.conf"
   when: admin_certificate.changed
 
 - name: File generation of kubeconfig configuration for [admin] 3/4
   shell: |
-    KUBECONFIG="{{ pki_path }}/kubeconfigs/admin/admin.conf" \
     kubectl config set-context default-system \
     --cluster default-cluster \
     --user default-admin
+  environment:
+    KUBECONFIG: "{{ pki_path }}/kubeconfigs/admin/admin.conf"
   when: admin_certificate.changed
   
 - name: File generation of kubeconfig configuration for [admin] 4/4
   shell: |
-    KUBECONFIG="{{ pki_path }}/kubeconfigs/admin/admin.conf" \
     kubectl config use-context default-system
+  environment:
+    KUBECONFIG: "{{ pki_path }}/kubeconfigs/admin/admin.conf"
   when: admin_certificate.changed
 
 - name: File generation of kubeconfig configuration for [controller-manager] 1/4
   shell: |
-    KUBECONFIG="{{ pki_path }}/kubeconfigs/controller-manager/controller-manager.conf" \
     kubectl config set-cluster default-cluster --server=https://{{ advertise_ip_masters }}:6443 \
     --certificate-authority "{{ pki_path }}/intermediate/ca.crt" \
     --embed-certs
+  environment:
+    KUBECONFIG: "{{ pki_path }}/kubeconfigs/controller-manager/controller-manager.conf"
   when: controllermanager_certificate.changed
 
 - name: File generation of kubeconfig configuration for [controller-manager] 2/4
   shell: |
-    KUBECONFIG="{{ pki_path }}/kubeconfigs/controller-manager/controller-manager.conf" \
     kubectl config set-credentials default-controller-manager \
     --client-key "{{ pki_path }}/kubeconfigs/controller-manager/controller-manager.key" \
     --client-certificate "{{ pki_path }}/kubeconfigs/controller-manager/controller-manager.crt" \
     --embed-certs
+  environment:
+    KUBECONFIG: "{{ pki_path }}/kubeconfigs/controller-manager/controller-manager.conf"
   when: controllermanager_certificate.changed
 
 - name: File generation of kubeconfig configuration for [controller-manager] 3/4
   shell: |
-    KUBECONFIG="{{ pki_path }}/kubeconfigs/controller-manager/controller-manager.conf" \
     kubectl config set-context default-system \
     --cluster default-cluster \
     --user default-controller-manager
+  environment:
+    KUBECONFIG: "{{ pki_path }}/kubeconfigs/controller-manager/controller-manager.conf"
   when: controllermanager_certificate.changed
   
 - name: File generation of kubeconfig configuration for [controller-manager] 4/4
   shell: |
-    KUBECONFIG="{{ pki_path }}/kubeconfigs/controller-manager/controller-manager.conf" \
     kubectl config use-context default-system
+  environment:
+    KUBECONFIG: "{{ pki_path }}/kubeconfigs/controller-manager/controller-manager.conf"
   when: controllermanager_certificate.changed
 
 - name: File generation of kubeconfig configuration for [scheduler] 1/4
   shell: |
-    KUBECONFIG="{{ pki_path }}/kubeconfigs/scheduler/scheduler.conf" \
     kubectl config set-cluster default-cluster --server=https://{{ advertise_ip_masters }}:6443 \
     --certificate-authority "{{ pki_path }}/intermediate/ca.crt" \
     --embed-certs
+  environment:
+    KUBECONFIG: "{{ pki_path }}/kubeconfigs/scheduler/scheduler.conf"
   when: scheduler_certifiate.changed
 
 - name: File generation of kubeconfig configuration for [scheduler] 2/4
   shell: |
-    KUBECONFIG="{{ pki_path }}/kubeconfigs/scheduler/scheduler.conf" \
     kubectl config set-credentials default-scheduler \
     --client-key "{{ pki_path }}/kubeconfigs/scheduler/scheduler.key" \
     --client-certificate "{{ pki_path }}/kubeconfigs/scheduler/scheduler.crt" \
     --embed-certs
+  environment:
+    KUBECONFIG: "{{ pki_path }}/kubeconfigs/scheduler/scheduler.conf"
   when: scheduler_certifiate.changed
 
 - name: File generation of kubeconfig configuration for [scheduler] 3/4
   shell: |
-    KUBECONFIG="{{ pki_path }}/kubeconfigs/scheduler/scheduler.conf" \
     kubectl config set-context default-system \
     --cluster default-cluster \
     --user default-scheduler
+  environment:
+    KUBECONFIG: "{{ pki_path }}/kubeconfigs/scheduler/scheduler.conf"
   when: scheduler_certifiate.changed
   
 - name: File generation of kubeconfig configuration for [scheduler] 4/4
   shell: |
-    KUBECONFIG="{{ pki_path }}/kubeconfigs/scheduler/scheduler.conf" \
     kubectl config use-context default-system
+  environment:
+    KUBECONFIG: "{{ pki_path }}/kubeconfigs/scheduler/scheduler.conf"
   when: scheduler_certifiate.changed
   
 - name: Create dir for all kubeconfig kubelet nodes
@@ -461,10 +473,11 @@
 
 - name: File generation of kubeconfig configuration for [kubelets] 1/4
   shell: |
-    KUBECONFIG="{{ pki_path }}/kubeconfigs/kubelet/{{ item }}/kubelet.conf" \
     kubectl config set-cluster default-cluster --server=https://{{ advertise_ip_masters }}:6443 \
     --certificate-authority "{{ pki_path }}/intermediate/ca.crt" \
     --embed-certs
+  environment:
+    KUBECONFIG: "{{ pki_path }}/kubeconfigs/kubelet/{{ item }}/kubelet.conf"
   with_items:
     - "{{ groups['masters'] }}"
     - "{{ groups['workers'] }}"
@@ -472,11 +485,12 @@
 
 - name: File generation of kubeconfig configuration for [kubelets] 2/4
   shell: |
-    KUBECONFIG="{{ pki_path }}/kubeconfigs/kubelet/{{ item }}/kubelet.conf" \
     kubectl config set-credentials default-auth \
     --client-key "{{ pki_path }}/kubeconfigs/kubelet/{{ item }}/kubelet.key" \
     --client-certificate "{{ pki_path }}/kubeconfigs/kubelet/{{ item }}/kubelet.crt" \
     --embed-certs
+  environment:
+    KUBECONFIG: "{{ pki_path }}/kubeconfigs/kubelet/{{ item }}/kubelet.conf"
   with_items:
     - "{{ groups['masters'] }}"
     - "{{ groups['workers'] }}"
@@ -484,10 +498,11 @@
 
 - name: File generation of kubeconfig configuration for [kubelets] 3/4
   shell: |
-    KUBECONFIG="{{ pki_path }}/kubeconfigs/kubelet/{{ item }}/kubelet.conf" \
     kubectl config set-context default-system \
     --cluster default-cluster \
     --user default-auth
+  environment:
+    KUBECONFIG: "{{ pki_path }}/kubeconfigs/kubelet/{{ item }}/kubelet.conf"
   with_items:
     - "{{ groups['masters'] }}"
     - "{{ groups['workers'] }}"
@@ -495,8 +510,9 @@
   
 - name: File generation of kubeconfig configuration for [kubelets] 4/4
   shell: |
-    KUBECONFIG="{{ pki_path }}/kubeconfigs/kubelet/{{ item }}/kubelet.conf" \
     kubectl config use-context default-system
+  environment:
+    KUBECONFIG: "{{ pki_path }}/kubeconfigs/kubelet/{{ item }}/kubelet.conf"
   with_items:
     - "{{ groups['masters'] }}"
     - "{{ groups['workers'] }}"
