@@ -32,7 +32,7 @@ cni_release: 0.8.5
 runtime: containerd
 network_cni_plugin: kube-router
 ingress_controller: traefik
-populate_etc_hosts: yes
+populate_etc_hosts: True
 k8s_dashboard: True
 
 # Calico
