@@ -123,7 +123,7 @@
       - clientAuth
       - serverAuth
     subject_alt_name: 'DNS:localhost,IP:127.0.0.1'
-  
+
 - name: Generate CSR for kube-etcd-healthcheck-client
   openssl_csr:
     path: "{{ pki_path }}/end/kube-etcd-healthcheck-client.csr"
@@ -169,7 +169,7 @@
       - clientAuth
       - serverAuth
     subject_alt_name: "{{ etcd_subject }}"
-      
+
 - name: Generate an OpenSSL certificate signed for all ETCD end-certificates
   openssl_certificate:
     path: "{{ pki_path }}/end/{{ item }}.crt"
@@ -253,7 +253,7 @@
   file:
     path: "{{ pki_path }}/kubeconfigs"
     state: directory
-  
+
 - name: Create dir for kubeconfigs admin, controller-manager and scheduler
   file:
     path: "{{ pki_path }}/kubeconfigs/{{ item }}"
@@ -262,7 +262,7 @@
     - admin
     - controller-manager
     - scheduler
-  
+
 - name: Generate admin.key private keys
   openssl_privatekey:
     path: "{{ pki_path }}/kubeconfigs/{{ item }}/{{ item }}.key"
@@ -281,7 +281,7 @@
     locality_name: "{{ locality_name }}"
     country_name: "{{ country_name }}"
     organization_name: 'system:masters'
-  
+
 - name: Generate CSR for controller-manager and scheduler X.509
   openssl_csr:
     path: "{{ pki_path }}/kubeconfigs/{{ item }}/{{ item }}.csr"
@@ -352,7 +352,7 @@
   environment:
     KUBECONFIG: "{{ pki_path }}/kubeconfigs/admin/admin.conf"
   when: admin_certificate.changed
-  
+
 - name: File generation of kubeconfig configuration for [admin] 4/4
   shell: |
     kubectl config use-context default-system
@@ -387,7 +387,7 @@
   environment:
     KUBECONFIG: "{{ pki_path }}/kubeconfigs/controller-manager/controller-manager.conf"
   when: controllermanager_certificate.changed
-  
+
 - name: File generation of kubeconfig configuration for [controller-manager] 4/4
   shell: |
     kubectl config use-context default-system
@@ -422,14 +422,14 @@
   environment:
     KUBECONFIG: "{{ pki_path }}/kubeconfigs/scheduler/scheduler.conf"
   when: scheduler_certifiate.changed
-  
+
 - name: File generation of kubeconfig configuration for [scheduler] 4/4
   shell: |
     kubectl config use-context default-system
   environment:
     KUBECONFIG: "{{ pki_path }}/kubeconfigs/scheduler/scheduler.conf"
   when: scheduler_certifiate.changed
-  
+
 - name: Create dir for all kubeconfig kubelet nodes
   file:
     path: "{{ pki_path }}/kubeconfigs/kubelet/{{ item }}"
@@ -444,7 +444,7 @@
   with_items:
     - "{{ groups['masters'] }}"
     - "{{ groups['workers'] }}"
-  
+
 - name: Generate CSR for kubelets X.509
   openssl_csr:
     path: "{{ pki_path }}/kubeconfigs/kubelet/{{ item }}/kubelet.csr"
@@ -457,7 +457,7 @@
   with_items:
     - "{{ groups['masters'] }}"
     - "{{ groups['workers'] }}"
-  
+
 - name: Generate an OpenSSL certificate signed for kubelets end-certificates
   openssl_certificate:
     path: "{{ pki_path }}/kubeconfigs/kubelet/{{ item }}/kubelet.crt"
@@ -507,7 +507,7 @@
     - "{{ groups['masters'] }}"
     - "{{ groups['workers'] }}"
   when: kubelet_certificate.changed
-  
+
 - name: File generation of kubeconfig configuration for [kubelets] 4/4
   shell: |
     kubectl config use-context default-system
