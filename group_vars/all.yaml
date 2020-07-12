@@ -1,13 +1,15 @@
 ---
+# PKI info
+state_or_province_name: "Ile-De-France"
+locality_name: "Paris"
+country_name: "FR"
+root_ca_common_name: "kubernetes"
+expiry: "+3650d" # Default validity duration for PKI certificates.
 
-# CERTIFICATES
-cn_root_ca: ilkilabs
-c: FR
-st: Ile-De-France
-l: Paris
-expiry: 87600h
-rotate_certs_pki: false
-rotate_full_pki: false
+# PKI management parameters
+rotate_certificats: False # This parameter is used to renew K8S PKI certificats
+rotate_private_keys: False # This parametter is used to renew K8S PKI keys. Keys, CSR and CRT are renewed
+rotate_token_certificats: False # This parameter renew Service Account Token certs.
 
 # Components version
 etcd_release: v3.4.7
@@ -30,7 +32,7 @@ cni_release: 0.8.5
 runtime: containerd
 network_cni_plugin: kube-router
 ingress_controller: traefik
-populate_etc_hosts: yes
+populate_etc_hosts: True
 k8s_dashboard: True
 
 # Calico
