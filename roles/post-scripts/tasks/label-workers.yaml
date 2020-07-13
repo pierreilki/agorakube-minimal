@@ -7,9 +7,9 @@
   retries: 300
   delay: 10
   run_once: true
-  with_items: "{{ groups['all'] }}"
-  when:
-    - item not in groups['deploy']
+  with_items:
+    - "{{ groups['masters'] }}"
+    - "{{ groups['workers'] }}"
 
 - name: Label Woker Nodes
   command: "kubectl --kubeconfig {{ pki_path }}/kubeconfigs/admin/admin.conf label node {{ item }}  node-role.kubernetes.io/worker= --overwrite"
