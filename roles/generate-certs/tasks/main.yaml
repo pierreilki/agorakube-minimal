@@ -458,7 +458,7 @@
 - name: Generate CSR for kubelets X.509
   openssl_csr:
     path: "{{ pki_path }}/kubeconfigs/kubelet/{{ item }}/kubelet.csr"
-    privatekey_path: "{{ pki_path }}/kubeconfigs/admin/admin.key"
+    privatekey_path: "{{ pki_path }}/kubeconfigs/kubelet/{{ item }}/kubelet.key"
     common_name: "system:node:{{ item }}"
     state_or_province_name: "{{ state_or_province_name }}"
     locality_name: "{{ locality_name }}"
