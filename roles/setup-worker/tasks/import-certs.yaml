@@ -8,13 +8,25 @@
     mode: '644'
     recurse: True
 
-- name: Import all master components keys and certificates
+- name: Import master CA crt for kubelet
   copy:
-    src: "{{ pki_path }}/{{ item.src }}"
-    dest: /etc/kubernetes/pki/{{ item.dest }}
+    src: "{{ pki_path }}/intermediate/ca.crt"
+    dest: /etc/kubernetes/pki/ca.crt
   with_items:
     - { src: 'intermediate/ca.crt', dest: 'ca.crt' }
-    - { src: 'end/kube-apiserver-kubelet-client.key', dest: 'apiserver-kubelet-client.key' }
-    - { src: 'end/kube-apiserver-kubelet-client.crt', dest: 'apiserver-kubelet-client.crt' }
+  notify:
+    - restart kubelet
+
+- name: Import specific KEY for kubelet
+  copy:
+    src: "{{ pki_path }}/kubeconfigs/kubelet/{{ inventory_hostname }}/kubelet.key"
+    dest: /etc/kubernetes/pki/kubelet.key
+  notify:
+    - restart kubelet
+
+- name: Import specific KEY for kubelet
+  copy:
+    src: "{{ pki_path }}/kubeconfigs/kubelet/{{ inventory_hostname }}/kubelet.crt"
+    dest: /etc/kubernetes/pki/kubelet.crt
   notify:
     - restart kubelet

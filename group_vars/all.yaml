@@ -8,7 +8,7 @@ root_ca_common_name: "kubernetes"
 expiry: "+3650d" # Default validity duration for PKI certificates.
 
 # PKI management parameters
-rotate_certificats: False # This parameter is used to renew K8S PKI certificats
+rotate_certificats: True # This parameter is used to renew K8S PKI certificats
 rotate_private_keys: False # This parametter is used to renew K8S PKI keys. Keys, CSR and CRT are renewed
 rotate_token_certificats: False # This parameter renew Service Account Token certs.
 
