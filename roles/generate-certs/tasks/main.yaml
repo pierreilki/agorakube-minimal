@@ -529,3 +529,97 @@
     - "{{ groups['masters'] }}"
     - "{{ groups['workers'] }}"
   when: kubelet_certificate.changed
+
+#
+#
+#
+
+- name: Create dir for all kubeconfig kube-proxy nodes
+  file:
+    path: "{{ pki_path }}/kubeconfigs/proxier/{{ item }}"
+    state: directory
+  with_items:
+    - "{{ groups['masters'] }}"
+    - "{{ groups['workers'] }}"
+
+- name: Generate proxier.key private keys
+  openssl_privatekey:
+    path: "{{ pki_path }}/kubeconfigs/proxier/{{ item }}/proxier.key"
+  with_items:
+    - "{{ groups['masters'] }}"
+    - "{{ groups['workers'] }}"
+
+- name: Generate CSR for proxier X.509
+  openssl_csr:
+    path: "{{ pki_path }}/kubeconfigs/proxier/{{ item }}/proxier.csr"
+    privatekey_path: "{{ pki_path }}/kubeconfigs/proxier/{{ item }}/proxier.key"
+    common_name: "system:node-proxier:{{ item }}"
+    state_or_province_name: "{{ state_or_province_name }}"
+    locality_name: "{{ locality_name }}"
+    country_name: "{{ country_name }}"
+    organization_name: 'system:node-proxier'
+    use_common_name_for_san: False
+    subject_alt_name: "DNS:{{ item }}"
+  with_items:
+    - "{{ groups['masters'] }}"
+    - "{{ groups['workers'] }}"
+
+- name: Generate an OpenSSL certificate signed for proxiers end-certificates
+  openssl_certificate:
+    path: "{{ pki_path }}/kubeconfigs/proxier/{{ item }}/proxier.crt"
+    csr_path: "{{ pki_path }}/kubeconfigs/proxier/{{ item }}/proxier.csr"
+    ownca_path: "{{ pki_path }}/intermediate/ca.crt"
+    ownca_privatekey_path: "{{ pki_path }}/intermediate/ca.key"
+    provider: ownca
+    force: "{{ rotate_certificats }}"
+  with_items:
+    - "{{ groups['masters'] }}"
+    - "{{ groups['workers'] }}"
+  register: kubelet_certificate
+
+- name: File generation of kubeconfig configuration for [kube-proxy] 1/4
+  shell: |
+    kubectl config set-cluster default-cluster --server=https://{{ advertise_ip_masters }}:6443 \
+    --certificate-authority "{{ pki_path }}/intermediate/ca.crt" \
+    --embed-certs
+  environment:
+    KUBECONFIG: "{{ pki_path }}/kubeconfigs/proxier/{{ item }}/proxier.conf"
+  with_items:
+    - "{{ groups['masters'] }}"
+    - "{{ groups['workers'] }}"
+  when: kubelet_certificate.changed
+
+- name: File generation of kubeconfig configuration for [kube-proxy] 2/4
+  shell: |
+    kubectl config set-credentials default-auth \
+    --client-key "{{ pki_path }}/kubeconfigs/proxier/{{ item }}/proxier.key" \
+    --client-certificate "{{ pki_path }}/kubeconfigs/proxier/{{ item }}/proxier.crt" \
+    --embed-certs
+  environment:
+    KUBECONFIG: "{{ pki_path }}/kubeconfigs/proxier/{{ item }}/proxier.conf"
+  with_items:
+    - "{{ groups['masters'] }}"
+    - "{{ groups['workers'] }}"
+  when: kubelet_certificate.changed
+
+- name: File generation of kubeconfig configuration for [kube-proxy] 3/4
+  shell: |
+    kubectl config set-context default-system \
+    --cluster default-cluster \
+    --user default-auth
+  environment:
+    KUBECONFIG: "{{ pki_path }}/kubeconfigs/proxier/{{ item }}/proxier.conf"
+  with_items:
+    - "{{ groups['masters'] }}"
+    - "{{ groups['workers'] }}"
+  when: kubelet_certificate.changed
+
+- name: File generation of kubeconfig configuration for [kube-proxy] 4/4
+  shell: |
+    kubectl config use-context default-system
+  environment:
+    KUBECONFIG: "{{ pki_path }}/kubeconfigs/proxier/{{ item }}/proxier.conf"
+  with_items:
+    - "{{ groups['masters'] }}"
+    - "{{ groups['workers'] }}"
+  when: kubelet_certificate.changed
