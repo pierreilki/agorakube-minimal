@@ -35,4 +35,3 @@
   when:
     - item in groups['masters']
     - item not in groups['workers']
-    - item not in groups['storage']
