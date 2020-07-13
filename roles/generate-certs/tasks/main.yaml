@@ -465,6 +465,7 @@
     country_name: "{{ country_name }}"
     organization_name: 'system:nodes'
     use_common_name_for_san: False
+    subject_alt_name: "DNS:{{ item }}"
   with_items:
     - "{{ groups['masters'] }}"
     - "{{ groups['workers'] }}"

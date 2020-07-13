@@ -5,8 +5,8 @@ authentication:
     enabled: false
   webhook:
     enabled: true
-#  x509:
-#    clientCAFile: "/etc/kubernetes/pki/ca.crt"
+  x509:
+    clientCAFile: "/etc/kubernetes/pki/ca.crt"
 authorization:
   mode: Webhook
 clusterDomain: "cluster.local"
@@ -22,5 +22,5 @@ resolvConf: "/run/systemd/resolve/resolv.conf"
 {% endif %}
 runtimeRequestTimeout: "15m"
 streamingConnectionIdleTimeout: "5m"
-#tlsCertFile: "/etc/kubernetes/pki/apiserver-kubelet-client.crt"
-#tlsPrivateKeyFile: "/etc/kubernetes/pki/apiserver-kubelet-client.key"
+tlsCertFile: "/etc/kubernetes/pki/kubelet.crt"
+tlsPrivateKeyFile: "/etc/kubernetes/pki/kubelet.key"
