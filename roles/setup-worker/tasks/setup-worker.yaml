@@ -40,13 +40,16 @@
   notify:
     - restart kubelet
 
-- name: Create kubelet kubeconfig file
+- name: Import kubelet and kube-proxy kubeconfig files
   copy:
-    src: "{{ pki_path }}/kubeconfigs/kubelet/{{ ansible_fqdn }}/kubelet.conf"
-    dest: /etc/kubernetes/manifests/kubelet.conf
+    src: "{{ pki_path }}/kubeconfigs/{{ item }}/{{ ansible_fqdn }}/{{ item }}.conf"
+    dest: /etc/kubernetes/manifests/{{ item }}.conf
     owner: root
     group: root
     mode: '644'
+  with_items:
+    - kubelet
+    - proxier
   notify:
     - restart kubelet
     - restart kube-proxy
