@@ -557,7 +557,6 @@
     state_or_province_name: "{{ state_or_province_name }}"
     locality_name: "{{ locality_name }}"
     country_name: "{{ country_name }}"
-    organization_name: 'system:kube-proxy'
     use_common_name_for_san: False
     subject_alt_name: "DNS:{{ item }}"
   with_items:
@@ -591,7 +590,7 @@
 
 - name: File generation of kubeconfig configuration for [kube-proxy] 2/4
   shell: |
-    kubectl config set-credentials system:kube-proxy \
+    kubectl config set-credentials default-proxier \
     --client-key "{{ pki_path }}/kubeconfigs/proxier/{{ item }}/proxier.key" \
     --client-certificate "{{ pki_path }}/kubeconfigs/proxier/{{ item }}/proxier.crt" \
     --embed-certs
@@ -606,7 +605,7 @@
   shell: |
     kubectl config set-context default-system \
     --cluster default-cluster \
-    --user system:kube-proxy
+    --user default-proxier
   environment:
     KUBECONFIG: "{{ pki_path }}/kubeconfigs/proxier/{{ item }}/proxier.conf"
   with_items:
