@@ -131,7 +131,7 @@
     extended_key_usage:
       - clientAuth
       - serverAuth
-    subject_alt_name: "{{ kube_api_subject }}"
+    subject_alt_name: "{{ etcd_subject }}"
 
 - name: Generate CSR for kube-etcd-healthcheck-client
   openssl_csr:
