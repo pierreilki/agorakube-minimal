@@ -51,8 +51,8 @@ ExecStart=/usr/local/bin/kubernetes/server/bin/kube-apiserver \
   --secure-port=6443 \
   --service-account-lookup=true \
   --profiling=false \
-  --proxy-client-cert-file=/etc/kubernetes/pki/proxy/front-proxy-client.crt \
-  --proxy-client-key-file=/etc/kubernetes/pki/proxy/front-proxy-client.key
+  --proxy-client-cert-file=/etc/kubernetes/pki/front-proxy-client.crt \
+  --proxy-client-key-file=/etc/kubernetes/pki/front-proxy-client.key
 Restart=on-failure
 RestartSec=5
 
