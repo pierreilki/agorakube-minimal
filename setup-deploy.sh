@@ -18,7 +18,7 @@
     echo "#$DISTRO#"
     if [[ $DISTRO == centos* ]]; then
         sudo killall -9 yum
-        sudo yum install epel-release python3 libselinux-python3 -y
+        sudo yum install epel-release python libselinux-python -y
         sudo yum install ansible -y
         sudo yum install openssh-server -y
         sudo yum install git -y
@@ -28,7 +28,7 @@
         export DEBIAN_FRONTEND=noninteractive
         sudo killall apt apt-get
         sudo apt-get update
-        sudo apt-get install -yqq git software-properties-common python3
+        sudo apt-get install -yqq git software-properties-common python
         sudo apt-add-repository --yes --update ppa:ansible/ansible
         sudo apt-get install -yqq ansible
         sudo add-apt-repository --yes --remove ppa:ansible/ansible
