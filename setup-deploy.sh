@@ -18,7 +18,7 @@
     echo "#$DISTRO#"
     if [[ $DISTRO == centos* ]]; then
         sudo killall -9 yum
-        sudo yum install epel-release python3 -y
+        sudo yum install epel-release python3 libselinux-python3 -y
         sudo yum install ansible -y
         sudo yum install openssh-server -y
         sudo yum install git -y
