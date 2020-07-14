@@ -13,7 +13,7 @@ rotate_private_keys: False # This parametter is used to renew K8S PKI keys. Keys
 rotate_token_certificats: False # This parameter renew Service Account Token certs.
 
 # Components version
-etcd_release: v3.4.7
+etcd_release: v3.4.9
 kubernetes_release: v1.18.5
 delete_previous_k8s_install: False
 delete_etcd_install: False
