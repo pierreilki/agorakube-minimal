@@ -1,7 +1,7 @@
 ---
 - name: Install required packages for ansible pip module
   package:
-    name: ['python3-setuptools','python3-pip']
+    name: ['python-setuptools','python-pip']
     state: latest
 
 - name: Install Python Cryptography library used to generate PKI
