@@ -73,7 +73,7 @@
     - dashboard_admin_token.changed
 
 - name: Verify if metric scraper pod has successfully started
-  command: kubectl --kubeconfig {{ pki_path }}/kubeconfigs/admin/admin.conf get deploy -n kubernetes-dashboard kubernetes-metrics-scraper
+  command: kubectl --kubeconfig {{ pki_path }}/kubeconfigs/admin/admin.conf get deploy -n kubernetes-dashboard dashboard-metrics-scraper
   changed_when: false
   register: scraper_deployment
   until: scraper_deployment.stdout.find("1/1") != -1
