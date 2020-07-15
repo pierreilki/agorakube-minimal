@@ -7,11 +7,8 @@ worker1  ansible_host=10.10.20.4
 
 [etcd]
 worker1  ansible_host=10.10.20.4
-
 [workers]
 worker1  ansible_host=10.10.20.4
-worker2  ansible_host=10.10.20.5
-worker3  ansible_host=10.10.20.6
 
 [all:vars]
 advertise_ip_masters=10.10.20.4
