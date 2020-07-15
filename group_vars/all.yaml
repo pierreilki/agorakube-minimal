@@ -34,6 +34,7 @@ network_cni_plugin: kube-router
 ingress_controller: nginx
 populate_etc_hosts: True
 k8s_dashboard: True
+enable_metrics_server: True
 
 # Calico
 calico_mtu: 1440
