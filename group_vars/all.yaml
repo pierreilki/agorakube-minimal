@@ -31,7 +31,7 @@ cni_release: 0.8.6
 # Custom features
 runtime: containerd
 network_cni_plugin: kube-router
-ingress_controller: traefik
+ingress_controller: nginx
 populate_etc_hosts: True
 k8s_dashboard: True
 
