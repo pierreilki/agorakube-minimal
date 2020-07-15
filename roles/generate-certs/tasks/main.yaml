@@ -1,12 +1,13 @@
 ---
-- name: Install required packages for ansible pip module
-  package:
-    name: ['python-setuptools','python-pip']
-    state: latest
+# The two following tasks are not done by setup-deploy.sh script. This packages are installed when pip install ansible
+#- name: Install required packages for ansible pip module
+#  package:
+#    name: ['python-setuptools','python-pip']
+#    state: latest
 
-- name: Install Python Cryptography library used to generate PKI
-  pip:
-    name: cryptography
+#- name: Install Python Cryptography library used to generate PKI
+#  pip:
+#    name: cryptography
 
 - name: Create ca-root dir
   file:
