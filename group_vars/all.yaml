@@ -41,7 +41,7 @@ calico_mtu: 1440
 # Security
 encrypt_etcd_keys:
 # Warrning: If multiple keys are defined ONLY LAST KEY is used for encrypt and decrypt.
-# Other keys are used only for decrypt purpose
+# Other keys are used only for decrypt purpose. Keys can be generated with command: head -c 32 /dev/urandom | base64
   key1:
     secret: 1fJcKt6vBxMt+AkBanoaxFF2O6ytHIkETNgQWv4b/+Q=
 
