@@ -75,7 +75,7 @@ rotate_private_keys: False # This parametter is used to renew K8S PKI keys. Keys
 rotate_token_certificats: False # This parameter renew Service Account Token certs.
 
 # Components version
-etcd_release: v3.4.7
+etcd_release: v3.4.9
 kubernetes_release: v1.18.5
 delete_previous_k8s_install: False
 delete_etcd_install: False
@@ -89,7 +89,7 @@ cluster_dns_ip: 10.32.0.10
 service_node_port_range: 30000-32000
 kube_proxy_mode: ipvs
 kube_proxy_ipvs_algotithm: rr
-cni_release: 0.8.5
+cni_release: 0.8.6
 
 # Custom features
 runtime: containerd
@@ -141,16 +141,18 @@ kube_apiserver_enable_admission_plugins:
 ' > /home/vagrant/agorakube-minimal/group_vars/all.yaml
 cd /home/vagrant/agorakube-minimal
 sudo ansible-playbook agorakube.yaml
+cp /root/.kube/config /var/kubeconfig/config
 SCRIPT
 
 
 
 Vagrant.configure("2") do |config|
-    config.vm.box = "bento/ubuntu-18.04"
+    config.vm.box = "bento/centos-7"
 	config.vm.define "worker1" do |worker1|
 	    worker1.vm.provision "shell", inline: $script2
 		worker1.vm.hostname = "worker1"
 		worker1.vm.network "private_network", ip: "10.10.20.4"
+		worker1.vm.synced_folder ".", "/var/kubeconfig"
 		worker1.vm.provider "virtualbox" do |v|
 			v.memory = 4096
 			v.cpus = 1
