@@ -1,4 +1,3 @@
-
 ---
 # PKI info
 state_or_province_name: "Ile-De-France"
@@ -75,5 +74,3 @@ kube_apiserver_enable_admission_plugins:
   - ResourceQuota
 # SecurityContextDeny should be replaced by PodSecurityPolicy
 #  - SecurityContextDeny
-
-

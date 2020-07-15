@@ -17,12 +17,8 @@
 
 - name: Retrive all keys to authenticate K8S service account tokens
   find:
-    paths: /etc/kubernetes/pki/token_authentication_keys/
+    paths: "{{ pki_path }}/sa"
   register: token_keys
-
-- nmane: Debug SA Keys
-  debug:
-    msg: "{{ token_keys }}"
 
 - name: Import kubernetes master services definitions in /etc/systemd/system/
   template:

@@ -35,13 +35,12 @@
     - Restart kube-scheduler service
     - Restart kube-controller-manager service
 
-- name: Import SA private keys and public key used for Toen authentication
+- name: Import SA private keys and public key used for Token authentication
   copy:
-    src: "{{ pki_path }}/{{ item.src }}"
-    dest: /etc/kubernetes/pki/{{ item.dest }}
-  with_items:
-    - { src: 'sa/sa.key', dest: 'sa.key' }
-    - { src: 'sa/sa.pub', dest: 'sa.pub' }
+    src: "{{ item }}"
+    dest: /etc/kubernetes/pki/sa/
+  with_fileglob:
+    - "{{ pki_path  }}/sa/*"
   notify:
     - Restart kube-apiserver service
     - Restart kube-scheduler service
