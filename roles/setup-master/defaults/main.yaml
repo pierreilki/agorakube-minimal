@@ -6,7 +6,12 @@ service_node_port_range: 30000-32767
 encrypt_key_etcd: 1fJcKt6vBxMt+AkBanoaxFF2O6ytHIkETNgQWv4b/+Q=
 delete_previous_k8s_install: false
 kube_apiserver_enable_admission_plugins:
+# plugin AlwaysPullImage can be deleted. Credentials would be required to pull the private images every time. 
+# Also, in trusted environments, this might increases load on network, registry, and decreases speed.
+#  - AlwaysPullImages
   - NamespaceLifecycle
+# EventRateLimit is used to limit DoS on API server in case of event Flooding
+  - EventRateLimit
   - LimitRanger
   - ServiceAccount
   - TaintNodesByCondition
@@ -17,6 +22,9 @@ kube_apiserver_enable_admission_plugins:
   - StorageObjectInUseProtection
   - PersistentVolumeClaimResize
   - MutatingAdmissionWebhook
+  - NodeRestriction
   - ValidatingAdmissionWebhook
   - RuntimeClass
   - ResourceQuota
+# SecurityContextDeny should be replaced by PodSecurityPolicy
+#  - SecurityContextDeny
