@@ -25,6 +25,10 @@
   include_tasks: nginx.yaml
   when: ingress_controller == 'nginx'
 
+- name: Install MetalLB Layer2
+  include_tasks: metallb_l2.yaml
+  when: enable_metallb_layer2
+
 - name: Install K8S Default Dashboard
   include_tasks: default_dashboard.yaml
   when: k8s_dashboard
