@@ -19,6 +19,15 @@ data:
       addresses:
       - {{ metallb_layer2_ips }}
 ---
+apiVersion: v1
+data:
+  secretkey: "{{ metallb_secret_key }}"
+kind: Secret
+metadata:
+  name: memberlist
+  namespace: metallb-system
+type: Opaque
+---
 apiVersion: policy/v1beta1
 kind: PodSecurityPolicy
 metadata:
