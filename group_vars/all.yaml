@@ -24,6 +24,8 @@ kubernetes_service: 10.32.0.1
 cluster_dns_ip: 10.32.0.10
 service_node_port_range: 30000-32000
 cni_release: 0.8.6
+enable_metallb_layer2: True
+metallb_layer2_ips: 10.100.200.10-10.100.200.250
 
 # Custom features
 runtime: containerd
