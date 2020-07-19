@@ -10,3 +10,5 @@ cluster_cidr: 10.33.0.0/16
 enable_metrics_server: True
 # Calico
 calico_mtu: 1440
+enable_metallb_layer2: True
+metallb_layer2_ips: 10.100.200.10-10.100.200.250
