@@ -1,5 +1,5 @@
 ---
-network-cni-plugin: kube-router
+network_cni_plugin: kube-router
 cluster_dns_ip: 10.32.0.10 
 ingress_controller: traefik
 k8s_dashboard: true
