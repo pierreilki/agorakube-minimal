@@ -1,0 +1,35 @@
+---
+- name: Create tempdir
+  tempfile:
+    state: directory
+    suffix: metallb
+  register: metallb_tempdir
+  changed_when: false
+
+- name: Render templates
+  template:
+    dest: "{{ metallb_tempdir.path }}/metal-lb-layer2.yaml"
+    src: "metal-lb-layer2.yaml.j2"
+  changed_when: false
+
+- name: Apply templates
+  command: kubectl --kubeconfig {{ pki_path }}/kubeconfigs/admin/admin.conf apply -f {{ metallb_tempdir.path }}/metal-lb-layer2.yaml
+  register: apply_metallb
+  changed_when: >
+    apply_metallb.stdout is search("created")
+    or apply_metallb.stdout is search("configured")
+
+- name: Cleanup tempdir
+  file:
+    state: absent
+    path: "{{ metallb_tempdir.path }}"
+  changed_when: false
+
+- name: Verify if metallb pods has successfully started
+  command: kubectl --kubeconfig {{ pki_path }}/kubeconfigs/admin/admin.conf get deploy -n metallb-system controller
+  changed_when: false
+  register: metallb_deployment
+  until: metallb_deployment.stdout.find("1/1") != -1
+  retries: 300
+  delay: 10
+  run_once: true
