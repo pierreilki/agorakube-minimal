@@ -29,7 +29,6 @@ metallb_layer2_ips: 10.100.200.10-10.100.200.250 # Set Exeternal IP pool used by
 
 # Custom features
 runtime: containerd
-network_cni_plugin: kube-router
 ingress_controller: nginx
 populate_etc_hosts: True
 k8s_dashboard: True
