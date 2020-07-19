@@ -9,10 +9,10 @@
     msg: "Runtime {{ runtime }} is not supported ! Supported values are : docker, containerd, none, false"
   when: runtime not in ['docker','containerd','false','none']
 
-- name: Check CNI Pluging variable
-  fail:
-    msg: "Network CNI plugin {{ network_cni_plugin }} is not supported ! Supported values are : flannel, calico, kube-router none"
-  when: network_cni_plugin not in ['calico','kube-router','none']
+#- name: Check CNI Pluging variable
+#  fail:
+#    msg: "Network CNI plugin {{ network_cni_plugin }} is not supported ! Supported values are : flannel, calico, kube-router none"
+#  when: network_cni_plugin not in ['calico','kube-router','none']
 
 - name: check Ingress Controller
   fail:
