@@ -33,9 +33,6 @@ populate_etc_hosts: True
 k8s_dashboard: True
 enable_metrics_server: True
 
-# Calico
-calico_mtu: 1440
-
 # Security
 encrypt_etcd_keys:
 # Warrning: If multiple keys are defined ONLY LAST KEY is used for encrypt and decrypt.
