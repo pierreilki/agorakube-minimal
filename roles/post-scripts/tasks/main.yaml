@@ -36,3 +36,7 @@
 - name: Install Metrics-Server
   include_tasks: metrics-server.yaml
   when: enable_metrics_server
+
+- name: Install openebs for persistence
+  include_tasks: openebs.yaml
+  when: enable_persistence
