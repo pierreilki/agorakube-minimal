@@ -35,6 +35,7 @@ ingress_controller: nginx
 populate_etc_hosts: True
 k8s_dashboard: True
 enable_metrics_server: True
+enable_persistence: True
 
 # Security
 encrypt_etcd_keys:
