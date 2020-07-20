@@ -4,6 +4,21 @@
     name: ["socat", "conntrack", "ipset"]
     state: latest
 
+
+- name: install {{ iscsi_package_name }} package
+  package:
+    name: "{{ iscsi_package_name }}"
+    state: latest
+  when: enable_persistence
+
+- name: Ensure iscsid is running and enabled
+  systemd:
+    name: iscsid
+    state: started
+    enabled: yes
+    daemon_reload: yes
+  when: enable_persistence
+
 - name: Create /etc/kubernetes/manifests directory
   file:
     path: /etc/kubernetes/manifests
