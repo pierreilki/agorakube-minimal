@@ -113,7 +113,7 @@ subjects:
 - kind: ServiceAccount
   name: prometheus
   namespace: default
-{% enable_persistence %}
+{% if enable_persistence %}
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
