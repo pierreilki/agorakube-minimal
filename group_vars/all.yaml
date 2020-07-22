@@ -36,7 +36,9 @@ populate_etc_hosts: True
 k8s_dashboard: True
 enable_metrics_server: True
 enable_persistence: True
-
+enable_monitoring: True
+dashboard_admin_user: administrator
+dashboard_admin_password: P@ssw0rd
 # Security
 encrypt_etcd_keys:
 # Warrning: If multiple keys are defined ONLY LAST KEY is used for encrypt and decrypt.

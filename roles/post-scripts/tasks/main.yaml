@@ -40,3 +40,7 @@
 - name: Install openebs for persistence
   include_tasks: openebs.yaml
   when: enable_persistence
+
+- name: Install Monitoring
+  include_tasks: monitoring.yaml
+  when: enable_monitoring
