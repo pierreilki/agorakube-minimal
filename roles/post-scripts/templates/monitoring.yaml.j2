@@ -193,7 +193,7 @@ spec:
         - name: metrics
           containerPort: 9090
         volumeMounts:
-        - name: config-volume
+        - name: prometheus-config
           mountPath: /etc/prometheus
 {% if enable_persistence %}
         - name: prometheus-data
@@ -207,7 +207,7 @@ spec:
           mountPath: /prometheus
 {% endif %}
       volumes:
-      - name: config-volume
+      - name: prometheus-config
         configMap:
          name: prometheus-config
 {% if enable_persistence %}
