@@ -2,8 +2,8 @@
 - name: Create tempdir
   tempfile:
     state: directory
-    suffix: calico
-  register: calico_tempdir
+    suffix: monitoring
+  register: monitoring_tempdir
   changed_when: false
 
 - name: Render templates
